@@ -1,0 +1,6 @@
+#!/bin/bash
+
+nosetests --with-coverage --cover-package=requests_test -v -I "requests_test/test_example.py"
+cd requests_test
+rm *.pyc
+cd ..

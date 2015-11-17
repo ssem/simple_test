@@ -59,3 +59,43 @@ class Test_Get_Headers(unittest.TestCase):
         mock_requests.get.assert_called_with(
             url='http://www.google.com',
             timeout=5)
+
+
+class Test_Parameters(unittest.TestCase):
+    def setUp(self):
+        self.cut = Example()
+        self.cut._parameters = mock.Mock()
+
+    def tearDown(self):
+        pass
+
+    def test_parameters_default(self):
+        self.cut.parameters()
+        self.cut._parameters.assert_called_with(1, "a", "foo bar")
+
+    def test_parameters_args(self):
+        self.cut.parameters(2)
+        self.cut._parameters.assert_called_with(2, "a", "foo bar")
+
+
+class Test_Parameters_Called_Twice(unittest.TestCase):
+    def setUp(self):
+        self.cut = Example()
+        self.cut._parameters = mock.Mock()
+
+    def tearDown(self):
+        pass
+
+    def test_parameters_called_twice_default(self):
+        self.cut.parameters_called_twice()
+        self.cut._parameters.assert_has_calls([
+            mock.call(1, "a", "foo bar"),
+            mock.call(1, "a", "foo bar")],
+            any_order=True)
+
+    def test_parameters_called_twice_args(self):
+        self.cut.parameters_called_twice(2)
+        self.cut._parameters.assert_has_calls([
+            mock.call(2, "a", "foo bar"),
+            mock.call(1, "a", "foo bar")],
+            any_order=False)
